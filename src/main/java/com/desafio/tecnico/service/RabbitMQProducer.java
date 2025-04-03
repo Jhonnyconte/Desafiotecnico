@@ -1,12 +1,16 @@
 package com.desafio.tecnico.service;
 
-import com.desafio.tecnico.config.RabbitMQConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQProducer {
-
+    private static final Logger logger = LoggerFactory.getLogger(RabbitMQProducer.class);
+    @Value("${rabbitmq.queue}")
+    private String queueName;
     private final RabbitTemplate rabbitTemplate;
 
     public RabbitMQProducer(RabbitTemplate rabbitTemplate) {
@@ -14,6 +18,7 @@ public class RabbitMQProducer {
     }
 
     public void sendMessage(String message) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.QUEUE_NAME, message);
+        logger.info("Enviando mensagem para RabbitMQ: {}", message);
+        rabbitTemplate.convertAndSend(queueName, message);
     }
 }
