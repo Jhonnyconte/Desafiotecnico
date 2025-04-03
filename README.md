@@ -33,8 +33,11 @@ Caso queira rodar a aplicação localmente pelo **IntelliJ**, siga os passos aba
 
 1. **Compile o projeto com o JDK Amazon Corretto 17**
     ```sh
-    mvn clean install
+    mvn clean install (Precisa das variaveis RabbitMQ para rodar os testes)
+   ou
+   mvn clean install -DskipTests
     ```
+   
 2. **Comente a seção `app` no `docker-compose.yml`** para evitar que o Docker tente subir a aplicação automaticamente:
     ```yaml
     # app:

@@ -33,7 +33,6 @@ public class DeviceService {
 
     public List<DeviceDTO> getAllDevices(Pageable pageable) {
         return repository.findByRemovedFalse(pageable).stream()
-                .filter(device -> !device.isRemoved())
                 .map(mapper::toDTO)
                 .toList();
     }
