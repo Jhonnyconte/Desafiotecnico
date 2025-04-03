@@ -7,8 +7,6 @@ import com.desafio.tecnico.mapper.DeviceMapper;
 import com.desafio.tecnico.repository.DeviceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.PersistenceException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,22 +46,15 @@ public class DeviceService {
     }
 
     public DeviceDTO createDevice(DeviceDTO dto) {
-        try {
-            Device device = mapper.toEntity(dto);
+         Device device = mapper.toEntity(dto);
             device.setCreatedAt(LocalDateTime.now());
             Device savedDevice = repository.save(device);
             DeviceDTO deviceDTO = mapper.toDTO(savedDevice);
             sendMessageToRabbitMQ("CREATE", deviceDTO);
             return deviceDTO;
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao salvar dispositivo: dados inválidos ou duplicados.", e);
-        } catch (PersistenceException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Dispositivo já existe.", e);
-        }
     }
 
     public DeviceDTO updateDevice(UUID id, DeviceDTO dto) {
-        try {
             Device device = repository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Device not found"));
 
@@ -75,9 +66,6 @@ public class DeviceService {
             DeviceDTO deviceDTO = mapper.toDTO(save);
             sendMessageToRabbitMQ("UPDATE", deviceDTO);
             return deviceDTO;
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao atualizar dispositivo: dados inválidos ou duplicados.", e);
-        }
     }
 
     public void deleteDevice(UUID id) {

@@ -3,6 +3,7 @@ package com.desafio.tecnico.controller;
 
 import com.desafio.tecnico.dto.DeviceDTO;
 import com.desafio.tecnico.service.DeviceService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,12 @@ public class DeviceController {
     }
 
     @PostMapping
-    public ResponseEntity<DeviceDTO> createDevice(@RequestBody DeviceDTO dto) {
+    public ResponseEntity<DeviceDTO> createDevice(@RequestBody @Valid DeviceDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createDevice(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DeviceDTO> updateDevice(@PathVariable UUID id, @RequestBody DeviceDTO dto) {
+    public ResponseEntity<DeviceDTO> updateDevice(@PathVariable UUID id,@RequestBody @Valid DeviceDTO dto) {
         return ResponseEntity.ok(service.updateDevice(id, dto));
     }
 
