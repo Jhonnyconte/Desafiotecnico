@@ -86,6 +86,7 @@ Caso queira rodar a aplicação como um container separado (sem usar `docker-com
         -e RABBITMQ_PORT=5672 \
         -e RABBITMQ_USER=admin \
         -e RABBITMQ_PASSWORD=admin \  
+        -e RABBITMQ_QUEUE=deviceQueue \
    desafio-tecnico
     ```
 

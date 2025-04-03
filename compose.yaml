@@ -46,3 +46,4 @@ services:
         - RABBITMQ_PORT=5672
         - RABBITMQ_USER=admin
         - RABBITMQ_PASSWORD=admin
+        - RABBITMQ_QUEUE=deviceQueue
